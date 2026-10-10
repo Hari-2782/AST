@@ -19,8 +19,17 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT || '22' }}
           script: |
+            # Ensure the directory exists
+            mkdir -p /var/www
+            cd /var/www
+            
+            # Clone the repository if it doesn't exist yet
+            if [ ! -d "ast-website" ]; then
+              git clone https://github.com/Hari-2782/AST.git ast-website
+            fi
+            
             # Navigate to the app directory
-            cd /var/www/ast-website
+            cd ast-website
             
             # Pull latest changes
             git pull origin main
